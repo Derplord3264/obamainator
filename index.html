@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Obamainator</title>
+    <title>Pixel-Preserving Morph</title>
     <script src="https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.js"></script>
     <style>
         :root {
@@ -114,8 +114,8 @@
 <body>
 
     <div class="container">
-        <h1>Obamainator</h1>
-        <p>Upload an image to obama-inate it!</p>
+        <h1>Pixel-Preserving Morph</h1>
+        <p>Upload your image. Its pixels will be intelligently rearranged to form the target image.</p>
         
         <div class="controls">
             <label for="imageLoader" class="file-upload-label">Choose an Image</label>
@@ -341,6 +341,12 @@
                 height: canvas.height,
                 workerScript: 'gif.worker.js'
             });
+
+            // Draw the initial static frame and add it with a 1-second delay
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => p.draw());
+            gifRecorder.addFrame(ctx, { copy: true, delay: 1000 });
 
             gifRecorder.on('finished', function(blob) {
                 const url = URL.createObjectURL(blob);
