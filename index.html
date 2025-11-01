@@ -115,7 +115,7 @@
 
     <div class="container">
         <h1>Obamainator</h1>
-        <p>Upload an image to obama-ify it!</p>
+        <p>Upload an image to obama-inate it!</p>
         
         <div class="controls">
             <label for="imageLoader" class="file-upload-label">Choose an Image</label>
@@ -325,18 +325,21 @@
         function startRecording() {
             if (particles.length === 0) return;
             
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+
             isRecording = true;
             downloadButton.disabled = true;
+            startButton.disabled = true;
             downloadButton.textContent = 'Recording...';
             
             particles.forEach(p => { p.x = p.startX; p.y = p.startY; });
 
             gifRecorder = new GIF({
                 workers: 2,
-		quality: 10,
-		width: canvas.width,
-		height: canvas.height,
-		workerScript: './gif.worker.js'
+                quality: 10,
+                width: canvas.width,
+                height: canvas.height,
+                workerScript: 'gif.worker.js'
             });
 
             gifRecorder.on('finished', function(blob) {
@@ -349,6 +352,7 @@
                 isRecording = false;
                 gifRecorder = null;
                 downloadButton.disabled = false;
+                startButton.disabled = false;
                 downloadButton.textContent = 'Download GIF';
             });
             
